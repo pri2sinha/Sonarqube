@@ -1,0 +1,71 @@
+📘 DevOps Project Deployment Documentation (Maven + Jenkins + SonarQube)
+
+🔧 1. Server Setup (EC2 Linux)
+Install required software on your Jenkins EC2 server:
+
+✅ Install Java 17 (Amazon Corretto)
+
+sudo yum install java-17-amazon-corretto -y
+✅ Set Java 17 as default (system-wide or Jenkins user only)
+
+echo "export JAVA_HOME=/usr/lib/jvm/java-17-amazon-corretto.x86_64" >> ~/.bashrc
+echo 'export PATH=$JAVA_HOME/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+
+===================================================================================================================
+Verify:
+java -version
+echo $JAVA_HOME
+
+✅ Install Maven 3.8.8
+
+wget https://downloads.apache.org/maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.tar.gz
+tar -xvzf apache-maven-3.8.8-bin.tar.gz
+sudo mv apache-maven-3.8.8 /opt/maven
++++++++++++++++++++++++++++++(OR)++++++++++++++++++++++++++++++++++++++++++++++++++++
+========================================================================================================================
+Install and use Maven via Jenkins Tool Configuration
+Go to Jenkins Dashboard → Manage Jenkins → Global Tool Configuration
+Under Maven, click Add Maven
+Give it a name (e.g., maven-3.8.8)
+Select "Install automatically" and choose version 3.8.8
+=========================================================================================================
+
+# Set environment variables
+sudo tee /etc/profile.d/maven.sh <<EOF
+export M2_HOME=/opt/maven
+export PATH=\$M2_HOME/bin:\$PATH
+EOF
+
+sudo chmod +x /etc/profile.d/maven.sh
+source /etc/profile.d/maven.sh
+
+mvn -v
+⚙️ 2. Jenkins Configuration
+
+
+✅ Installed Plugins
+Maven Integration Plugin
+SonarQube Scanner Plugin
+Git Plugin
+Pipeline Plugin
+
+
+✅ Global Tool Configuration
+Maven:
+Name: maven-3.8.8
+Install automatically: unchecked (since you installed manually)
+Path: /opt/maven
+Java:
+
+Make sure Jenkins uses system default Java (java -version returns Java 17)
+
+✅ SonarQube Setup
+Go to: Manage Jenkins → Configure System → SonarQube
+Add:
+Name: SonarQube
+
+Server URL: http://3.110.123.191:9000
+Authentication Token: 243379828eb80afca1653e8c435340b5edc26282 (store in Jenkins credentials as Secret Text)
+
+
