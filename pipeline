@@ -1,0 +1,42 @@
+pipeline {
+    agent any 
+    tools {
+        maven 'maven-3.8.8'  // Name must match the one configured in Jenkins
+    }
+    stages {
+        stage('checkout') {
+            steps {
+                git 'https://github.com/Venkatareddy1714/jenkins-java-project123.git'
+            }
+        }
+        stage('build') {
+            steps {
+                sh 'mvn compile'
+            }
+        }
+        stage('test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage('code quality') {
+            steps {
+                sh '''
+                export JAVA_HOME=/usr/lib/jvm/java-17-amazon-corretto
+                export PATH=$JAVA_HOME/bin:$PATH
+                java -version
+
+                mvn sonar:sonar \
+                  -Dsonar.projectKey=netflix \
+                  -Dsonar.host.url=http://3.110.123.191:9000 \
+                  -Dsonar.login=243379828eb80afca1653e8c435340b5edc26282
+                '''
+            }
+        }
+        stage('artifact') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+    }
+}
