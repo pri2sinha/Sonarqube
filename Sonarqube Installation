@@ -31,3 +31,7 @@ public-ip:9000---- port
 add project -- > name -- > token -- > continue -- > maven -- > copy paste commands on pipeline
 
 token -c92bb7d2fe28c078530227f0ed2098ee4d7f1aa2
+mvn sonar:sonar \
+  -Dsonar.projectKey=sonarkey \
+  -Dsonar.host.url=http://13.126.90.62:9000 \
+  -Dsonar.login=c92bb7d2fe28c078530227f0ed2098ee4d7f1aa2
