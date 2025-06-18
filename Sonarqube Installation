@@ -6,22 +6,28 @@ STEUP:
 
 #! /bin/bash
 #Launch an instance with 9000 and t2.medium
+----------------------------------
+under root these folders are created 
+bin  boot  dev  etc  home  lib  lib64  local  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+-------------------------------------------------------------------------
 cd /opt/
 wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-8.9.6.50800.zip
 unzip sonarqube-8.9.6.50800.zip
-amazon-linux-extras install java-openjdk11 -y
+amazon-linux-extras install java-openjdk11 -y---------------java 17 we want ------
 useradd sonar
 chown sonar:sonar sonarqube-8.9.6.50800 -R
 chmod 777 sonarqube-8.9.6.50800 -R
 su - sonar
 
 #run this on server manually
-cd /opt/sonarqube-8.9.6.50800/bin/linux/
+cd /opt/sonarqube-8.9.6.50800/bin/linux-x86-64/
 sh sonar.sh start
 sh sonar.sh status
 
-#echo "user=admin & password=admin"
+#echo "user=admin & password=admin"-------------- default
 
 
-public-ip:9000
+public-ip:9000---- port 
 add project -- > name -- > token -- > continue -- > maven -- > copy paste commands on pipeline
+
+token -c92bb7d2fe28c078530227f0ed2098ee4d7f1aa2
